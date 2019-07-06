@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tic Tac Toe</title>
+  <link href="https://fonts.googleapis.com/css?family=Sniglet&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css"></link>
+</head>
+<body>
+  <div class="container">
+    <h1>Tic Tac Toe</h1>
+    <h3 class="current-player">Start game by clicking the button below.</h3>
+    <table class="game-board">
+      <tr>
+        <td class="cell" data-id="0">X</td>
+        <td class="cell" data-id="1"></td>
+        <td class="cell" data-id="2"></td>
+      </tr>
+      <tr>
+        <td class="cell" data-id="3"></td>
+        <td class="cell" data-id="4">O</td>
+        <td class="cell" data-id="5"></td>
+      </tr>
+      <tr>
+        <td class="cell" data-id="6"></td>
+        <td class="cell" data-id="7"></td>
+        <td class="cell" data-id="8">X</td>
+      </tr>
+    </table>
+    <div class="result">
+      <div class="text">
+        <span class="close">&times;</span>
+        <div class="winner-text"></div>
+      </div>
+    </div>
+    <button onclick="startGame()">Restart</button>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
