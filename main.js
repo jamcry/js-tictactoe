@@ -52,7 +52,6 @@ const UI = function() {
   };
 
   btnClosePopup.onclick = hideGameOverPopup;
-
   return { initCells, updateCurrentPlayer, blinkCell, endGame };
 };
 
