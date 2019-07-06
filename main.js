@@ -11,50 +11,50 @@ const UI = function() {
       cell.textContent = "";
       cell.addEventListener("click", handleClick);
     });
-  }
+  };
 
   // Removes click listeners of cells
   const deinitCells = () => {
     [...cells].forEach(cell => cell.removeEventListener("click", handleClick));
-  }
+  };
 
   const endGame = () => {
-    setInfoText('GAME OVER!');
+    setInfoText("GAME OVER!");
     deinitCells();
     showGameOverPopup();
-  } 
+  };
 
   // Updates info text with given text
-  const setInfoText = (text) => {
+  const setInfoText = text => {
     infoText.textContent = text;
-  }
+  };
 
   // Updates info text with current player info
-  const updateCurrentPlayer = (player) => {
+  const updateCurrentPlayer = player => {
     setInfoText(`${player} will make a move`);
-  }
+  };
 
   // Makes game over popup visible
   const showGameOverPopup = () => {
     gameOverPopupText.textContent = `${currentPlayer} WINS!`;
     gameOverPopup.style.display = "block";
-  }
+  };
 
   // Makes game over popup hidden
   const hideGameOverPopup = () => {
     gameOverPopup.style.display = "none";
-  }
+  };
 
   // Makes given cell blink to indicate invalid move
-  const blinkCell = (cell) => {
+  const blinkCell = cell => {
     cell.style.animation = "blink .6s 2";
     setTimeout(() => (cell.style.animation = ""), 1200);
-  }
+  };
 
   btnClosePopup.onclick = hideGameOverPopup;
 
-  return {initCells, updateCurrentPlayer, blinkCell, endGame}
-}
+  return { initCells, updateCurrentPlayer, blinkCell, endGame };
+};
 
 const ui = UI();
 const winningPatterns = [
@@ -73,7 +73,6 @@ const winningPatterns = [
 
 let currentCells = [];
 let currentPlayer = "";
-
 
 function startGame() {
   currentCells = Array.from(Array(9).keys());
@@ -96,14 +95,13 @@ function handleClick() {
 }
 
 function isCellValid(id) {
-  return (currentCells[id] == id);
+  return currentCells[id] == id;
 }
 
 function togglePlayer() {
   currentPlayer = currentPlayer === "X" ? "O" : "X";
   ui.updateCurrentPlayer(currentPlayer);
 }
-
 
 function checkWin() {
   for (let i = 0; i < winningPatterns.length; i++) {
