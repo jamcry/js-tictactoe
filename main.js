@@ -1,3 +1,62 @@
+const UI = function() {
+  const cells = document.querySelectorAll(".cell");
+  const gameOverPopup = document.querySelector(".result");
+  const gameOverPopupText = document.querySelector(".winner-text");
+  const btnClosePopup = document.querySelector(".close");
+  const infoText = document.querySelector(".info");
+
+  // Empties cell contexts and hooks click listeners
+  const initCells = () => {
+    [...cells].forEach(cell => {
+      cell.textContent = "";
+      cell.addEventListener("click", handleClick);
+    });
+  }
+
+  // Removes click listeners of cells
+  const deinitCells = () => {
+    [...cells].forEach(cell => cell.removeEventListener("click", handleClick));
+  }
+
+  const endGame = () => {
+    setInfoText('GAME OVER!');
+    deinitCells();
+    showGameOverPopup();
+  } 
+
+  // Updates info text with given text
+  const setInfoText = (text) => {
+    infoText.textContent = text;
+  }
+
+  // Updates info text with current player info
+  const updateCurrentPlayer = (player) => {
+    setInfoText(`${player} will make a move`);
+  }
+
+  // Makes game over popup visible
+  const showGameOverPopup = () => {
+    gameOverPopupText.textContent = `${currentPlayer} WINS!`;
+    gameOverPopup.style.display = "block";
+  }
+
+  // Makes game over popup hidden
+  const hideGameOverPopup = () => {
+    gameOverPopup.style.display = "none";
+  }
+
+  // Makes given cell blink to indicate invalid move
+  const blinkCell = (cell) => {
+    cell.style.animation = "blink .6s 2";
+    setTimeout(() => (cell.style.animation = ""), 1200);
+  }
+
+  btnClosePopup.onclick = hideGameOverPopup;
+
+  return {initCells, updateCurrentPlayer, blinkCell, endGame}
+}
+
+const ui = UI();
 const winningPatterns = [
   // Horizontal
   [0, 1, 2],
@@ -11,22 +70,16 @@ const winningPatterns = [
   [0, 4, 8],
   [6, 4, 2]
 ];
-const cells = document.querySelectorAll(".cell");
-const gameOverPopup = document.querySelector(".result");
-const gameOverPopupText = document.querySelector(".winner-text");
-const btnClosePopup = document.querySelector(".close");
-const currentPlayerText = document.querySelector(".current-player");
+
 let currentCells = [];
 let currentPlayer = "";
+
 
 function startGame() {
   currentCells = Array.from(Array(9).keys());
   currentPlayer = "X";
-  updateCurrentPlayerText();
-  [...cells].forEach(cell => {
-    cell.textContent = "";
-    cell.addEventListener("click", handleClick);
-  });
+  ui.updateCurrentPlayer(currentPlayer);
+  ui.initCells();
 }
 
 function handleClick() {
@@ -35,23 +88,11 @@ function handleClick() {
   if (isCellValid(id)) {
     cell.textContent = currentPlayer;
     currentCells[id] = currentPlayer;
-    if (checkWin()) endGame();
+    if (checkWin()) ui.endGame();
     else togglePlayer();
   } else {
-    makeBlink(cell);
+    ui.blinkCell(cell);
   }
-}
-
-function makeBlink(cell) {
-  cell.style.animation = "blink .6s 2";
-  setTimeout(() => (cell.style.animation = ""), 1200);
-}
-
-function endGame() {
-  [...cells].forEach(cell => cell.removeEventListener("click", handleClick));
-  currentPlayerText.textContent = "GAME OVER!";
-  gameOverPopupText.textContent = `${currentPlayer} WINS!`;
-  gameOverPopup.style.display = "block";
 }
 
 function isCellValid(id) {
@@ -60,12 +101,9 @@ function isCellValid(id) {
 
 function togglePlayer() {
   currentPlayer = currentPlayer === "X" ? "O" : "X";
-  updateCurrentPlayerText();
+  ui.updateCurrentPlayer(currentPlayer);
 }
 
-function updateCurrentPlayerText() {
-  currentPlayerText.textContent = `${currentPlayer} will make a move`;
-}
 
 function checkWin() {
   for (let i = 0; i < winningPatterns.length; i++) {
@@ -80,5 +118,3 @@ function checkWin() {
   }
   return false;
 }
-
-btnClosePopup.onclick = () => (gameOverPopup.style.display = "none");
